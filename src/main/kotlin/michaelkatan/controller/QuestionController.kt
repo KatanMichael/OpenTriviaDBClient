@@ -30,6 +30,10 @@ object QuestionController
     {
 
 
+        GlobalScope.launch(Dispatchers.Default)
+        {
+
+
             val stringUrl = "https://opentdb.com/api.php/?amount=$amount" +
                     "&category=$category&difficulty=$difficulty&type=$type"
 
@@ -41,19 +45,19 @@ object QuestionController
 
             val fromJson = gson.fromJson(encoding, QuestionRequest::class.java)
 
-
-
-
-                if(fromJson.response_code == 1)
-                {
+            GlobalScope.launch(Dispatchers.Main)
+            {
+                if (fromJson.response_code == 1) {
                     requestListener.onError("Error Found")
-                }else
-                {
+                } else {
                     requestListener.onComplete(fromJson)
                 }
 
+            }
 
 
+
+        }
     }
 
 
