@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.InputStreamReader
 import java.net.URL
 
-internal object QuestionController
+object QuestionController
 {
 
     private val gson = GsonBuilder().setLenient().create()
