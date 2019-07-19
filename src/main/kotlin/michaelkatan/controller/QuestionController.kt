@@ -23,7 +23,7 @@ object QuestionController
 
     private val retroClient = retrofit.create(RetroController::class.java)
 
-    val httpClient = OkHttpClient()
+    private val httpClient = OkHttpClient()
 
     fun getQuestions(amount: Int, category: Int, difficulty: String, type:String
                      ,requestListener: RequestListener)
@@ -55,54 +55,6 @@ object QuestionController
 
 
     }
-
-
-    fun getQuestionsRetro(requestListener: RequestListener)
-    {
-        retroClient.getQuestions(10).enqueue(object : retrofit2.Callback<QuestionRequest>
-        {
-            override fun onFailure(call: retrofit2.Call<QuestionRequest>
-                                   , t: Throwable)
-            {
-                requestListener.onError(t.message.toString())
-            }
-
-            override fun onResponse(call: retrofit2.Call<QuestionRequest>,
-                response: retrofit2.Response<QuestionRequest>)
-            {
-                val body = response.body()
-
-                println(body)
-            }
-
-        })
-    }
-
-    fun getQuizQuestions(amount: Int, requestListener: RequestListener)
-    {
-        retroClient.getQuizQuestions(amount)
-            .enqueue(object : retrofit2.Callback<QuestionRequest>
-            {
-                override fun onFailure(call: retrofit2.Call<QuestionRequest>, t: Throwable)
-                {
-                    requestListener.onError(t.message.toString())
-                }
-
-                override fun onResponse(
-                    call: retrofit2.Call<QuestionRequest>,
-                    response: retrofit2.Response<QuestionRequest>)
-                {
-                    println(call.request())
-                    //println(response.body())
-
-                }
-
-            })
-
-
-    }
-
-
 
 
 }
