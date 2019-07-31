@@ -30,34 +30,34 @@ object QuestionController
     {
 
 
-        GlobalScope.launch(Dispatchers.Default)
-        {
-
 
             val stringUrl = "https://opentdb.com/api.php/?amount=$amount" +
                     "&category=$category&difficulty=$difficulty&type=$type"
 
             val url = URL(stringUrl)
 
-            val inputStreamReader = InputStreamReader(url.openStream())
+            var inputStreamReader = InputStreamReader(null)
+
+            try
+            {
+                inputStreamReader = InputStreamReader(url.openStream())
+
+            }catch (e: Exception)
+            {
+                e.printStackTrace()
+            }
 
             val encoding = inputStreamReader.readText()
 
             val fromJson = gson.fromJson(encoding, QuestionRequest::class.java)
 
-            GlobalScope.launch(Dispatchers.Main)
-            {
-                if (fromJson.response_code == 1) {
-                    requestListener.onError("Error Found")
-                } else {
-                    requestListener.onComplete(fromJson)
-                }
-
-            }
-
-
-
+        if (fromJson.response_code == 1) {
+            requestListener.onError("Error Found")
+        } else {
+            requestListener.onComplete(fromJson)
         }
+
+
     }
 
 
